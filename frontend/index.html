@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Food Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Hospital Food Manager</h1>
+</header>
+
+<div class="container">
+
+    <!-- Patient Details Section -->
+    <div class="section" id="patient-details">
+        <h2>Manage Patient Details</h2>
+        <form id="patient-form">
+            <div class="form-group">
+                <label for="patient-name">Patient Name</label>
+                <input type="text" id="patient-name" placeholder="Enter patient's name">
+            </div>
+            <div class="form-group">
+                <label for="diseases">Diseases</label>
+                <textarea id="diseases" placeholder="Enter diseases"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="allergies">Allergies</label>
+                <textarea id="allergies" placeholder="Enter allergies"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="room-number">Room Number</label>
+                <input type="text" id="room-number" placeholder="Enter room number">
+            </div>
+            <div class="form-group">
+                <label for="bed-number">Bed Number</label>
+                <input type="text" id="bed-number" placeholder="Enter bed number">
+            </div>
+            <div class="form-group">
+                <label for="floor-number">Floor Number</label>
+                <input type="text" id="floor-number" placeholder="Enter floor number">
+            </div>
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" placeholder="Enter age">
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="contact-info">Contact Information</label>
+                <input type="text" id="contact-info" placeholder="Enter contact information">
+            </div>
+            <div class="form-group">
+                <label for="emergency-contact">Emergency Contact</label>
+                <input type="text" id="emergency-contact" placeholder="Enter emergency contact">
+            </div>
+            <button type="button" class="btn" onclick="savePatientDetails()">Save Details</button>
+        </form>
+        <div id="patient-details-output"></div>
+    </div>
+
+    <!-- Diet Chart Section -->
+    <div class="section" id="diet-chart">
+        <h2>Create Food/Diet Chart</h2>
+        <form id="diet-form">
+            <div class="form-group">
+                <label for="meal-time">Meal Time</label>
+                <select id="meal-time">
+                    <option value="morning">Morning</option>
+                    <option value="evening">Evening</option>
+                    <option value="night">Night</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="ingredients">Ingredients</label>
+                <textarea id="ingredients" placeholder="Enter ingredients"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="instructions">Specific Instructions</label>
+                <textarea id="instructions" placeholder="Enter instructions (e.g., 'no salt')"></textarea>
+            </div>
+            <button type="button" class="btn" onclick="saveDietChart()">Save Meal Plan</button>
+        </form>
+        <div id="diet-chart-output"></div>
+    </div>
+
+    <!-- Inner Pantry Section -->
+    <div class="section" id="inner-pantry">
+        <h2>Manage Inner Pantry</h2>
+        <form id="pantry-form">
+            <div class="form-group">
+                <label for="staff-name">Staff Name</label>
+                <input type="text" id="staff-name" placeholder="Enter staff name">
+            </div>
+            <div class="form-group">
+                <label for="staff-contact-info">Contact Information</label>
+                <input type="text" id="staff-contact-info" placeholder="Enter contact information">
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" placeholder="Enter location">
+            </div>
+            <button type="button" class="btn" onclick="savePantryDetails()">Save Pantry Details</button>
+        </form>
+        <div id="pantry-details-output"></div>
+    </div>
+
+</div>
+
+<script>
+    function savePatientDetails() {
+    const name = document.getElementById('patient-name').value;
+    const diseases = document.getElementById('diseases').value;
+    const allergies = document.getElementById('allergies').value;
+    const room = document.getElementById('room-number').value;
+    const bed = document.getElementById('bed-number').value;
+    const floor = document.getElementById('floor-number').value;
+    const age = document.getElementById('age').value;
+    const gender = document.getElementById('gender').value;
+    const contact = document.getElementById('contact-info').value;
+    const emergency = document.getElementById('emergency-contact').value;
+
+    // Send the data to the backend using POST request
+    fetch('http://localhost:3000/savePatientDetails', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name, diseases, allergies, room, bed, floor, age, gender, contact, emergency
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('patient-details-output').innerHTML = `
+            <h3>Saved Patient Details:</h3>
+            <p><strong>Name:</strong> ${data.name}</p>
+            <p><strong>Diseases:</strong> ${data.diseases}</p>
+            <p><strong>Allergies:</strong> ${data.allergies}</p>
+            <p><strong>Room:</strong> ${data.room}, <strong>Bed:</strong> ${data.bed}, <strong>Floor:</strong> ${data.floor}</p>
+            <p><strong>Age:</strong> ${data.age}, <strong>Gender:</strong> ${data.gender}</p>
+            <p><strong>Contact:</strong> ${data.contact}, <strong>Emergency Contact:</strong> ${data.emergency}</p>
+        `;
+    })
+    .catch(error => console.log('Error:', error));
+}
+
+
+function saveDietChart() {
+    const mealTime = document.getElementById('meal-time').value;
+    const ingredients = document.getElementById('ingredients').value;
+    const instructions = document.getElementById('instructions').value;
+
+    // Create an object with the data to send
+    const mealData = {
+        mealTime: mealTime,
+        ingredients: ingredients,
+        instructions: instructions
+    };
+
+    // Send a POST request to the backend to save the meal data
+    fetch('http://localhost:3000/saveDietChart', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(mealData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Show success message or handle response from backend
+        if (data.success) {
+            const output = `
+                <h3>Saved Diet Chart:</h3>
+                <p><strong>Meal Time:</strong> ${mealTime}</p>
+                <p><strong>Ingredients:</strong> ${ingredients}</p>
+                <p><strong>Instructions:</strong> ${instructions}</p>
+            `;
+            document.getElementById('diet-chart-output').innerHTML = output;
+        } else {
+            alert('Error saving diet chart');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error sending data to the server');
+    });
+}
+
+
+function savePantryDetails() {
+    const staffName = document.getElementById('staff-name').value;
+    const contactInfo = document.getElementById('staff-contact-info').value;
+    const location = document.getElementById('location').value;
+
+    // Create an object with the data to send
+    const pantryData = {
+        staffName: staffName,
+        contactInfo: contactInfo,
+        location: location
+    };
+
+    // Send a POST request to the backend to save pantry details
+    fetch('http://localhost:3000/savePantryDetails', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(pantryData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Show success message or handle response from backend
+        if (data.success) {
+            const output = `
+                <h3>Saved Pantry Details:</h3>
+                <p><strong>Staff Name:</strong> ${staffName}</p>
+                <p><strong>Contact Information:</strong> ${contactInfo}</p>
+                <p><strong>Location:</strong> ${location}</p>
+            `;
+            document.getElementById('pantry-details-output').innerHTML = output;
+        } else {
+            alert('Error saving pantry details');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error sending data to the server');
+    });
+}
+
+</script>
+
+</body>
+</html>
